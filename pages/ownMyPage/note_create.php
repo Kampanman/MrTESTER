@@ -65,11 +65,11 @@ try {
             <div class="invalid-feedback">ノート本文が入力されていません。</div>
           </div>
           <p align="center">現在の本文総バイト数 ： <span id="byte-count">0</span>バイト</p>
-          <div class="confirm-hider d-flex justify-content-center align-items-center mb-2">
-            <label>選択範囲：</label>
-            <button type="button" id="btnRedUnitMark" class="btn mark-btn mx-2 btn-danger">赤見出しマーク</button>
-            <button type="button" id="btnGreenMark" class="btn mark-btn mx-2 btn-success">緑色マーク</button>
-            <button type="button" id="btnOrangeCheck" class="btn mark-btn mx-2 btn-custom-orange">オレンジチェック</button>
+          <div class="confirm-hider d-md-flex justify-content-center align-items-center mb-2">
+            <label class="d-none d-md-block mt-2">選択範囲：</label>
+            <button type="button" id="btnRedUnitMark" class="btn mark-btn mx-2 mt-2 btn-danger">赤見出しマーク</button>
+            <button type="button" id="btnGreenMark" class="btn mark-btn mx-2 mt-2 btn-success">緑色マーク</button>
+            <button type="button" id="btnOrangeCheck" class="btn mark-btn mx-2 mt-2 btn-custom-orange">オレンジチェック</button>
           </div>
           <div class="confirm-hider d-flex justify-content-center align-items-center">
             <button id="confirmHide" type="button" class="btn btn-primary">本文の出力内容を確認</button>

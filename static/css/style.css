@@ -296,6 +296,10 @@ h3.topix-index {
     text-align: center;
   }
 
+    form#login_form h1 {
+      font-size: 150%;
+    }
+
   form#login_form p {
     font-size: 12px;
   }
@@ -308,7 +312,13 @@ h3.topix-index {
     font-size: 90%;
   }
 
-  body.contents main {
+  body.contents main, h2.contents-title {
     width: 90%;
   }
+
+  #noteTable th, #userTable th, 
+  #noteTable td, #userTable td {
+    word-break: auto-phrase;
+  }
+
 }
