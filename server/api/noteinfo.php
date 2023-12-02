@@ -53,7 +53,7 @@ if (isset($_GET['user_list'])) {
     array_push($where_array, "created_user_id = '" . $_GET['user_id'] . "'");
     if ($_GET['title'] != "") array_push($where_array, "title LIKE '%" . $_GET['title'] . "%'");
     if ($_GET['tags'] != "") array_push($where_array, "tags LIKE '%" . $_GET['tags'] . "%'");
-    if ($_GET['keywords'] != "") array_push($where_array, "keywords LIKE '%" . $_GET['keywords'] . "%'");
+    if ($_GET['keywords'] != "") array_push($where_array, "note LIKE '%" . $_GET['keywords'] . "%'");
     $where = implode(" " . $_GET['which'] . " ", $where_array);
     $res = SQLCruds::getUsersNoteWithSearchWhere($connection, $dbname, $where, $_GET['limit']);
   } else {

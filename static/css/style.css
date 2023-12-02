@@ -253,6 +253,12 @@ h3.topix-index {
   margin-bottom: 1rem;
 }
 
+#noteTable th, #userTable th,
+#noteTable td, #userTable td {
+  word-break: auto-phrase;
+  white-space: nowrap;
+}
+
 /* PC用 */
 @media only screen and (min-width:960px) {
   form#login_form {
@@ -281,6 +287,11 @@ h3.topix-index {
   body.contents main {
     width: 80%;
   }
+
+  body.contents p#note_text, body.contents p#note_title, 
+  body.contents h3.topix-index {
+    font-size: 110%;
+  }
 }
 
 /* スマホ用 */
@@ -296,9 +307,9 @@ h3.topix-index {
     text-align: center;
   }
 
-    form#login_form h1 {
-      font-size: 150%;
-    }
+  form#login_form h1 {
+    font-size: 150%;
+  }
 
   form#login_form p {
     font-size: 12px;
@@ -314,11 +325,5 @@ h3.topix-index {
 
   body.contents main, h2.contents-title {
     width: 90%;
-  }
-
-  #noteTable th, #userTable th, 
-  #noteTable td, #userTable td {
-    word-break: auto-phrase;
-    white-space: nowrap;
   }
 }

@@ -148,7 +148,7 @@ try {
           <thead>
             <tr>
               <th></th>
-              <th>タイトル</th>
+              <th class="note-title">タイトル</th>
               <th>タグ</th>
               <th>作成</th>
               <th>最終更新日</th>
@@ -230,7 +230,7 @@ try {
               } else if (row.elapsed_days >= 30) {
                 render = '<span class="over30"><b>30日以上</b></span>';
               } else {
-                render = data;
+                render = data + " 日";
               }
 
               return render;
