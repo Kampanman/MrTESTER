@@ -23,7 +23,6 @@ try {
       } else {
         // データベースに接続
         $connection = new PDO('mysql:host=' . $dsn . ';dbname=' . $dbname, $username, $password);
-
         // データベースからユーザー情報の有無を判定
         $posted = array(
           'login_id' => $_POST['login_id'],
@@ -82,6 +81,7 @@ try {
   <?php echo $datatableset("head"); ?>
   <?php echo $fontset; ?>
   <link href="../../static/css/style.css" rel="stylesheet" />
+  <link rel="icon" href="../../images/favicon.ico">
 </head>
 
 <body class="contents">

@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_SCHEME"] != 'https') {
   <meta name="keywords" content="" />
   <title><?php echo $contents_name ?>｜ログインフォーム</title>
   <link href="../static/css/style.css" rel="stylesheet" />
+  <link rel="icon" href="../images/favicon.ico">
 </head>
 
 <body class="login_body">

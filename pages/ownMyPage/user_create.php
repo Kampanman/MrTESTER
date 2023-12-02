@@ -9,7 +9,6 @@ try {
   $this_page = "ユーザー新規登録";
   /* セッション開始 */
   session_start();
-
   // 当サービス用のアクセストークンがセッションに登録されていない場合は、ログイン画面に遷移させる
   if (!isset($_SESSION['access_token'])) {
     header('Location: ../login.php');
@@ -33,6 +32,7 @@ try {
   <?php echo $bootset("head"); ?>
   <?php echo $fontset; ?>
   <link href="../../static/css/style.css" rel="stylesheet" />
+  <link rel="icon" href="../../images/favicon.ico">
 </head>
 
 <body class="contents">

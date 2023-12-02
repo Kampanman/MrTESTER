@@ -319,6 +319,6 @@ h3.topix-index {
   #noteTable th, #userTable th, 
   #noteTable td, #userTable td {
     word-break: auto-phrase;
+    white-space: nowrap;
   }
-
 }

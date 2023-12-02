@@ -18,7 +18,6 @@ try {
       header('Location: ../login.php');
     }
   }
-
   // login_idがセットされていなければ、インデックス画面にリダイレクトする
   if (!isset($_GET['login_id'])) {
     header('Location: ./index.php?req_error=1');
@@ -47,6 +46,7 @@ try {
   <?php echo $bootset("head"); ?>
   <?php echo $fontset; ?>
   <link href="../../static/css/style.css" rel="stylesheet" />
+  <link rel="icon" href="../../images/favicon.ico">
 </head>
 
 <body class="contents">
@@ -96,7 +96,7 @@ try {
               </select>
             </div>
           <?php endif; ?>
-          <?php if (($_SESSION['login_user']['authority'] >= 1 && $edit_for == "other") || ($_SESSION['login_user']['authority'] == 1 && $edit_for == "me")) : ?>
+          <?php if (($_SESSION['login_user']['authority'] >= 1 && $user_data->getAuthority() != 2) || ($_SESSION['login_user']['authority'] == 0 && $edit_for == "me")) : ?>
             <div class="mb-3 col-sm-2 <?php if ($user_data->getAuthority() != 2 && $edit_for == "other") echo 'mx-3' ?>">
               <label for="is_stopped" class="form-label">利用状態</label>
               <select class="form-select" id="is_stopped" name="is_stopped">

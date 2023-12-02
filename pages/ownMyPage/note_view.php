@@ -17,7 +17,6 @@ try {
       header('Location: ../login.php');
     }
   }
-
   // login_idがセットされていなければ、インデックス画面にリダイレクトする
   if (!isset($_GET['id']) || !isset($_GET['user_id'])) {
     header('Location: ./index.php?req_error=3');
@@ -45,6 +44,7 @@ try {
   <?php echo $datatableset("head"); ?>
   <?php echo $fontset; ?>
   <link href="../../static/css/style.css" rel="stylesheet" />
+  <link rel="icon" href="../../images/favicon.ico">
 </head>
 
 <body class="contents">
