@@ -6,6 +6,20 @@ $(function() {
 
   $(document).ready(function() {
     $('#byte-count').text(byteCount);
+
+    const append_caution = '<div class="confirm-hider d-flex justify-content-center align-items-center">'
+                        + '<button id="aboutMark" type="button" class="btn btn-secondary">選択範囲のマークについて</button>'
+                        + '</div><br />'
+                        + '<p id="markbtn-caution" class="d-none message-red" align="center">'
+                        + '選択中のものと同じ文字列が入力欄内に複数存在する場合、<br class="d-md-block d-none" />'
+                        + '選択中の文字列よりも前の同じ内容の文字列が<br class="d-md-block d-none" />'
+                        + 'マークされてしまうおそれがあります。<br /><br />'
+                        + '同じ文字列のうちの一つを選択してマークする場合は、<br class="d-md-block d-none" />'
+                        + 'あらかじめダミーの文字を付け加えて一意化した状態で選択し、<br class="d-md-block d-none" />'
+                        + 'マーク後にダミーの文字を除去することを推奨します。<br /><br />'
+                        + 'こうすることで、選択した文字列のみをマークすることができます。<br />'
+                        + '</p>';
+    $('.confirm-hider').eq(1).after(append_caution);
   });
 
   // ノート本文入力欄で入力がある度にバイト数を計算
@@ -87,6 +101,15 @@ $(function() {
     }
   });
 
+  // 選択肢マーク機能についての注意喚起分の表示／非表示を切り替える
+  $(document).on('click', "#aboutMark", function () {
+    if ($("#markbtn-caution").hasClass('d-none')) {
+      $("#markbtn-caution").removeClass('d-none');
+    } else {
+      $("#markbtn-caution").addClass('d-none');
+    }
+  });
+
   // 入力内容確認エリアを非表示にして、ノート本文入力欄を再度表示する
   $(document).on('click', "#backToInput", function() {
     $("#do-btn-area, .confirm-hider").fadeIn(500);
@@ -102,4 +125,5 @@ function showCantConfirm(eq) {
   setTimeout(function() {
     $(".cant-confirm").eq(eq).hide();
   }, 2000);
+
 }
