@@ -70,6 +70,11 @@ try {
         <p id="note_tags" class="load-hide mx-2"><?php echo ($note_row['tags'] == '' || $note_row['tags'] == null) ? 'タグは登録されていません' : $note_row['tags'] ?></p>
         <br />
         <h3 class="topix-index p-1 col-lg-4 load-hide">ノートテキスト</h3>
+        <br class="d-none over-h-1000" />
+        <div id="jump-btn-area" class="d-none over-h-1000 d-flex justify-content-center align-items-center">
+          <button type="button" id="jumpButton" class="btn btn-success">抽出ボタンの位置に移動する</button>
+        </div>
+        <br class="d-none over-h-1000" />
         <p id="note_text" class="load-hide mx-2"><?php echo $note_row['note'] ?></p>
         <div id="extracted-btn-area" class="d-flex justify-content-center align-items-center">
           <button type="button" class="btn btn-success">マーク・チェックを抽出</button>
@@ -79,6 +84,10 @@ try {
           <button type="button" class="btn btn-secondary" style="display:none;">元に戻す</button>
         </div>
         <br />
+        <div id="topreturn-btn-area" class="d-none over-h-1000 d-flex justify-content-center align-items-center">
+          <button type="button" id="topReturnButton" class="btn btn-danger">画面トップに戻る</button>
+        </div>
+        <br class="d-none over-h-1000" />
         <div id="do-btn-area" class="d-flex justify-content-center align-items-center">
           <form id="update_lastviewed" class="needs-validation">
             <input type="hidden" class="form-control" id="access_token" name="access_token" value="<?php echo $_SESSION['access_token'] ?>">
@@ -97,8 +106,14 @@ try {
   <script src="../../static/js/function.js"></script>
   <script>
     $(function() {
-      // 選択したノートの登録内容をフェードインで表示
       $(document).ready(function() {
+        // ノート本文の縦の長さが1000pxを超えている場合に「.over-h-1000」の要素を表示する
+        const text_height = $('#note_text').height();
+        if (text_height > 1000) {
+          $(".over-h-1000").removeClass('d-none');
+        }
+
+        // 選択したノートの登録内容をフェードインで表示
         let noteText = $("#note_text").text();
         const convertedText = noteText
           .replaceAll(/\r?\n/g, "<br />")
@@ -188,6 +203,7 @@ try {
 
         // 「元に戻す」ボタン押下時機能
         const extract_reset_btn = $("#extracted-reset-btn-area").find('button');
+
         extract_reset_btn.on('click', function() {
           // 「元に戻す」ボタンがあるエリアと「#extracted-area」エリアを非表示にする
           $("#extracted-area").hide();
@@ -258,7 +274,26 @@ try {
         }
       });
 
+      // 「#jumpButton」のボタンがクリックされたとき、「マーク・チェックを抽出」ボタンの位置にスクロールする
+      $(document).on('click', "#jumpButton", function() {
+        // 指定した要素の位置を取得
+        const position = $("#extracted-btn-area").offset().top;
+        scrollAnimation(position, 500);
+      });
+
+      // 「#topReturnButton」のボタンがクリックされたときは、画面のトップにスクロールする
+      $(document).on('click', "#topReturnButton", function() {
+        scrollAnimation(10, 500);
+      });
+
     });
+
+    // スクロールアニメーションを実行
+    function scrollAnimation(position, speed) {
+      $("body.contents main .white-board").animate({
+        scrollTop: position
+      }, speed);
+    }
   </script>
 </body>
 

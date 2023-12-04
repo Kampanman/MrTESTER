@@ -233,7 +233,7 @@ h2.contents-title {
 }
 
 .green-mark {
-  color: green;
+  color: #0fb120;
 }
 
 .orange-check {
@@ -324,6 +324,6 @@ h3.topix-index {
   }
 
   body.contents main, h2.contents-title {
-    width: 90%;
+    width: 85%;
   }
 }
