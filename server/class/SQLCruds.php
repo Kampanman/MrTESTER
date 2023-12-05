@@ -121,10 +121,28 @@ class SQLCruds
   {
     $res = array();
 
-    $sql = "SELECT id, title, tags, url, DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
+    $sql = "SELECT id, title, tags, url, "
+      . "DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
       . "DATE_FORMAT(created_at, '%Y-%m-%d') created_at, DATE_FORMAT(updated_at, '%Y-%m-%d') updated_at, created_user_id "
       . "FROM `" . $dbname . "`.`mt_notes` WHERE created_user_id = '" . $user_id . "' "
       . "ORDER BY elapsed_days DESC, updated_at DESC, title, tags LIMIT 100";
+    $statement = $connection->prepare($sql);
+    $statement->execute();
+    $got_list = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $res = json_encode($got_list);
+
+    return $res;
+  }
+
+  public static function getUsersNoteRecentryViewed100($connection, $dbname, $user_id)
+  {
+    $res = array();
+
+    $sql = "SELECT id, title, tags, url, "
+      . "DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
+      . "DATE_FORMAT(created_at, '%Y-%m-%d') created_at, DATE_FORMAT(updated_at, '%Y-%m-%d') updated_at, created_user_id "
+      . "FROM `" . $dbname . "`.`mt_notes` WHERE created_user_id = '" . $user_id . "' "
+      . "ORDER BY elapsed_days, title, tags LIMIT 100";
     $statement = $connection->prepare($sql);
     $statement->execute();
     $got_list = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -137,7 +155,8 @@ class SQLCruds
   {
     $res = array();
 
-    $sql = "SELECT id, title, tags, url, DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
+    $sql = "SELECT id, title, tags, url, "
+      . "DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
       . "DATE_FORMAT(created_at, '%Y-%m-%d') created_at, DATE_FORMAT(updated_at, '%Y-%m-%d') updated_at, created_user_id "
       . "FROM `" . $dbname . "`.`mt_notes` WHERE " . $where . " "
       . "ORDER BY elapsed_days DESC, updated_at DESC, title, tags LIMIT " . $limit;

@@ -46,16 +46,16 @@ if (isset($_POST['access_token'])) {
 
 if (isset($_GET['user_list'])) {
   $connection = new PDO('mysql:host=' . $dsn . ';dbname=' . $dbname, $username, $password);
-
   if ($_GET['user_list'] == 'searched') {
     $where_array = array();
-
     array_push($where_array, "created_user_id = '" . $_GET['user_id'] . "'");
     if ($_GET['title'] != "") array_push($where_array, "title LIKE '%" . $_GET['title'] . "%'");
     if ($_GET['tags'] != "") array_push($where_array, "tags LIKE '%" . $_GET['tags'] . "%'");
     if ($_GET['keywords'] != "") array_push($where_array, "note LIKE '%" . $_GET['keywords'] . "%'");
     $where = implode(" " . $_GET['which'] . " ", $where_array);
     $res = SQLCruds::getUsersNoteWithSearchWhere($connection, $dbname, $where, $_GET['limit']);
+  } else if ($_GET['user_list'] == 'recentry100') {
+    $res = SQLCruds::getUsersNoteRecentryViewed100($connection, $dbname, $_GET['user_id']);
   } else {
     $res = SQLCruds::getUsersNoteLast100($connection, $dbname, $_GET['id']);
   }

@@ -142,6 +142,9 @@ try {
           <div class="d-flex justify-content-center align-items-center mt-3">
             <button type="button" class="search do-btn btn btn-primary">この条件で検索</button>
           </div>
+          <div class="d-flex justify-content-center align-items-center mt-3">
+            <button type="button" class="recentry-100 btn btn-success">最近見た100件を取得</button>
+          </div>
           <br />
         </form>
         <table id="noteTable" class="table table-bordered">
@@ -166,6 +169,7 @@ try {
   <script src="../../static/js/function.js"></script>
   <script>
     let data_table;
+
     $(document).ready(function() {
       let send_url = "../../server/api/noteinfo.php?id=" + $("#user_id").val() + "&user_list=all";
       data_table = $('#noteTable').DataTable(getDt_settings(send_url));
@@ -173,9 +177,10 @@ try {
     });
 
     $(function() {
-      $(document).on('click', ".search", function() {
+      $(document).on('click', ".search, .recentry-100", function() {
         let search_param = $("#search_note").serialize();
-        let send_url = "../../server/api/noteinfo.php?user_list=searched&" + search_param;
+        let search_type = ($(this).hasClass("search")) ? 'searched' : 'recentry100';
+        let send_url = "../../server/api/noteinfo.php?user_list=" + search_type + "&" + search_param;
 
         // 画面遷移後にDatatablesが初期化されているのを破棄。検索後の状態に再構築できるようにする。
         if ($.fn.dataTable.isDataTable('#noteTable')) {
