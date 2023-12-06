@@ -7,7 +7,12 @@ $(function() {
   $(document).ready(function() {
     $('#byte-count').text(byteCount);
 
-    const append_caution = '<div class="confirm-hider d-flex justify-content-center align-items-center">'
+    const append_resetter = '<div class="d-flex justify-content-center align-items-center">'
+      + '<button id="resetMarks" type="button" class="btn btn-primary">本文中のマークをすべて除去</button>'
+      + '</div><br />';
+    $('.confirm-hider').eq(1).after(append_resetter);
+
+    const append_caution = '<div class="confirm-hider d-flex justify-content-center align-items-center mt-2">'
                         + '<button id="aboutMark" type="button" class="btn btn-secondary">選択範囲のマークについて</button>'
                         + '</div><br />'
                         + '<p id="markbtn-caution" class="d-none message-red" align="center">'
@@ -19,7 +24,7 @@ $(function() {
                         + 'マーク後にダミーの文字を除去することを推奨します。<br /><br />'
                         + 'こうすることで、選択した文字列のみをマークすることができます。<br />'
                         + '</p>';
-    $('.confirm-hider').eq(1).after(append_caution);
+    $('.confirm-hider').eq(2).after(append_caution);
   });
 
   // ノート本文入力欄で入力がある度にバイト数を計算
@@ -42,7 +47,6 @@ $(function() {
     if (selectedText.length > 0) {
       let beforeTag = "";
       let afterTag = "";
-
       if (btn_id == "btnRedUnitMark") {
         beforeTag = "##red##";
         afterTag = "#$red$#";
@@ -74,7 +78,14 @@ $(function() {
       byteCount = $('[name="note"]').val().replace(/[^\x00-\xff]/g, '**').length;
       $('#byte-count').text(byteCount);
     }
+  });
 
+  // 本文中で選択・マークした箇所をすべて未マーク状態に戻す
+  $(document).on('click', "#resetMarks", function () {
+    let inputText = $("[name='note']").val();
+    const resetText = inputText.replaceAll(/#(#|\$)(red|green|orange)(#|\$)#/g, "");
+    let do_reset = confirm("マークした箇所をすべて未マーク状態に戻します。\nよろしいですか？")
+    if(do_reset) $("[name='note']").val(resetText);
   });
 
   // ノート本文入力欄を一時的に非表示にして、入力内容確認エリアを表示
@@ -87,8 +98,7 @@ $(function() {
       $("#do-btn-area, .confirm-hider").find('label').hide();
       $("#confirmation").fadeIn(500);
 
-      const convertedText = inputText
-        .replaceAll(/\r?\n/g, "<br />")
+      const convertedText = inputText.replaceAll(/\r?\n/g, "<br />")
         .replaceAll("##red##", "<span class='red-mark'>")
         .replaceAll("##green##", "<span class='green-mark'>")
         .replaceAll("##orange##", "<span class='orange-check mx-1'>")
