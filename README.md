@@ -29,6 +29,7 @@ https://secure.sakura.ad.jp/rs/cp/
 
 # 最近の更新｜Recent updates
 - 基本機能搭載完了：2023/11/30
+- 追加機能 [最近見た100件を取得],[最近見ていない100件を取得] 実装完了：2023/12/23
 
 # 環境と使用言語｜Requirement and Language
 - フロントフレームワーク：JQuery 3.3.1
