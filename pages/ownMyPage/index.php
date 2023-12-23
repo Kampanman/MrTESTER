@@ -145,6 +145,9 @@ try {
           <div class="d-flex justify-content-center align-items-center mt-3">
             <button type="button" class="recentry-100 btn btn-success">最近見た100件を取得</button>
           </div>
+          <div class="d-flex justify-content-center align-items-center mt-3">
+            <button type="button" class="non-updateview-100 btn btn-danger">最近見ていない100件を取得</button>
+          </div>
           <br />
         </form>
         <table id="noteTable" class="table table-bordered">
@@ -177,9 +180,16 @@ try {
     });
 
     $(function() {
-      $(document).on('click', ".search, .recentry-100", function() {
+      $(document).on('click', ".search, .recentry-100, .non-updateview-100", function() {
         let search_param = $("#search_note").serialize();
-        let search_type = ($(this).hasClass("search")) ? 'searched' : 'recentry100';
+        let search_type = "";
+        if ($(this).hasClass("recentry-100")) {
+          search_type = "recentry100";
+        } else if ($(this).hasClass("non-updateview-100")) {
+          search_type = "nouUpdateview100";
+        } else {
+          search_type = "searched";
+        }
         let send_url = "../../server/api/noteinfo.php?user_list=" + search_type + "&" + search_param;
 
         // 画面遷移後にDatatablesが初期化されているのを破棄。検索後の状態に再構築できるようにする。

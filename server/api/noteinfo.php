@@ -17,6 +17,7 @@ if (isset($_POST['access_token'])) {
       $posted['url'] = $_POST['url'];
       $posted['note'] = $_POST['note'];
       $posted['created_user_id'] = $_POST['created_user_id'];
+
       $res = SQLCruds::registUsersNote($connection, $dbname, $posted);
     }
 
@@ -28,6 +29,7 @@ if (isset($_POST['access_token'])) {
       if (isset($_POST['url'])) array_push($setcols_array, "url = '" . $_POST['url'] . "'");
       array_push($setcols_array, "updated_at = now()");
       $uploader = implode(" , ", $setcols_array);
+
       $res = SQLCruds::updateUsersNote($connection, $dbname, $uploader, $_POST['id']);
     }
 
@@ -39,6 +41,7 @@ if (isset($_POST['access_token'])) {
       $setcols_array = array();
       array_push($setcols_array, "last_viewed_at = now()");
       $uploader = implode(" , ", $setcols_array);
+
       $res = SQLCruds::updateUsersNote($connection, $dbname, $uploader, $_POST['id']);
     }
   }
@@ -56,6 +59,8 @@ if (isset($_GET['user_list'])) {
     $res = SQLCruds::getUsersNoteWithSearchWhere($connection, $dbname, $where, $_GET['limit']);
   } else if ($_GET['user_list'] == 'recentry100') {
     $res = SQLCruds::getUsersNoteRecentryViewed100($connection, $dbname, $_GET['user_id']);
+  } else if ($_GET['user_list'] == 'nouUpdateview100') {
+    $res = SQLCruds::getUsersNoteNonUpdatedView100($connection, $dbname, $_GET['user_id']);
   } else {
     $res = SQLCruds::getUsersNoteLast100($connection, $dbname, $_GET['id']);
   }

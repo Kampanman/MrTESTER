@@ -151,6 +151,23 @@ class SQLCruds
     return $res;
   }
 
+  public static function getUsersNoteNonUpdatedView100($connection, $dbname, $user_id)
+  {
+    $res = array();
+
+    $sql = "SELECT id, title, tags, url, "
+      . "DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
+      . "DATE_FORMAT(created_at, '%Y-%m-%d') created_at, DATE_FORMAT(updated_at, '%Y-%m-%d') updated_at, created_user_id "
+      . "FROM `" . $dbname . "`.`mt_notes` WHERE created_user_id = '" . $user_id . "' "
+      . "ORDER BY elapsed_days DESC, title, tags LIMIT 100";
+    $statement = $connection->prepare($sql);
+    $statement->execute();
+    $got_list = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $res = json_encode($got_list);
+
+    return $res;
+  }
+
   public static function getUsersNoteWithSearchWhere($connection, $dbname, $where, $limit)
   {
     $res = array();
@@ -199,7 +216,6 @@ class SQLCruds
     $sql = "INSERT INTO `" . $dbname . "`.`mt_notes` "
       . "(id, title, tags, url, note, last_viewed_at, created_at, created_user_id, updated_at) "
       . "VALUES (?, ?, ?, ?, ?, now(), now(), ?, now())";
-
     $statement = $connection->prepare($sql);
 
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
