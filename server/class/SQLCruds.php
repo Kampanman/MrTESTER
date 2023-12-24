@@ -158,7 +158,7 @@ class SQLCruds
     $sql = "SELECT id, title, tags, url, "
       . "DATE_FORMAT(last_viewed_at, '%Y-%m-%d') last_viewed_at, DATEDIFF(NOW(), last_viewed_at) AS elapsed_days, "
       . "DATE_FORMAT(created_at, '%Y-%m-%d') created_at, DATE_FORMAT(updated_at, '%Y-%m-%d') updated_at, created_user_id "
-      . "FROM `" . $dbname . "`.`mt_notes` WHERE created_user_id = '" . $user_id . "' "
+      . "FROM `" . $dbname . "`.`mt_notes` WHERE created_user_id = '" . $user_id . "' AND DATEDIFF(NOW(), last_viewed_at) >= 10 "
       . "ORDER BY elapsed_days DESC, title, tags LIMIT 100";
     $statement = $connection->prepare($sql);
     $statement->execute();
