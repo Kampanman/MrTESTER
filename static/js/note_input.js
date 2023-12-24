@@ -2,7 +2,7 @@
 $(function() {
 
   // ノート本文の入力内容をバイト数に換算
-  let byteCount = $('[name="note"]').val().replace(/[^\x00-\xff]/g, '**').length;
+  let byteCount = encodeURI($('[name="note"]').val()).replace(/%../g, "*").length;
 
   $(document).ready(function() {
     $('#byte-count').text(byteCount);
@@ -29,7 +29,7 @@ $(function() {
 
   // ノート本文入力欄で入力がある度にバイト数を計算
   $(document).on('input', '[name="note"]', function() {
-    let byteCount_current = $(this).val().replace(/[^\x00-\xff]/g, '**').length;
+    let byteCount_current = encodeURI($(this).val()).replace(/%../g, "*").length;
     $('#byte-count').text(byteCount_current);
   });
 
