@@ -11,20 +11,6 @@ $(function() {
       + '<button id="resetMarks" type="button" class="btn btn-primary">本文中のマークをすべて除去</button>'
       + '</div><br />';
     $('.confirm-hider').eq(1).after(append_resetter);
-
-    const append_caution = '<div class="confirm-hider d-flex justify-content-center align-items-center mt-2">'
-                        + '<button id="aboutMark" type="button" class="btn btn-secondary">選択範囲のマークについて</button>'
-                        + '</div><br />'
-                        + '<p id="markbtn-caution" class="d-none message-red" align="center">'
-                        + '選択中のものと同じ文字列が入力欄内に複数存在する場合、<br class="d-md-block d-none" />'
-                        + '選択中の文字列よりも前の同じ内容の文字列が<br class="d-md-block d-none" />'
-                        + 'マークされてしまうおそれがあります。<br /><br />'
-                        + '同じ文字列のうちの一つを選択してマークする場合は、<br class="d-md-block d-none" />'
-                        + 'あらかじめダミーの文字を付け加えて一意化した状態で選択し、<br class="d-md-block d-none" />'
-                        + 'マーク後にダミーの文字を除去することを推奨します。<br /><br />'
-                        + 'こうすることで、選択した文字列のみをマークすることができます。<br />'
-                        + '</p>';
-    $('.confirm-hider').eq(2).after(append_caution);
   });
 
   // ノート本文入力欄で入力がある度にバイト数を計算
@@ -58,19 +44,18 @@ $(function() {
         afterTag = "#$orange$#";
       }
 
-      // 選択範囲の前後にbeforeTagとafterTagを追加
-      const modifiedText = beforeTag + selectedText + afterTag;
+      // 選択範囲の文字列の前に、ランダム生成された文字列を挿入
+      const randStr = generatedRandomStr();
+      const targetText = randStr + selectedText;
 
-      // 既にマークされている選択範囲のキーワードは、一時的にダミーの文字列に変換する
-      const escapeKeywords = "#" + selectedText + "#";
-      const escapedVal = inputText.replaceAll(escapeKeywords, "__escaped__");
+      // targetTextの前後にbeforeTagとafterTagを添える
+      const modifiedText = beforeTag + targetText + afterTag;
 
-      // 入力欄内の入力内容をmodifiedTextに更新する
-      let renewedText = escapedVal.replace(selectedText, modifiedText);
-
-      // 更新したら、ダミーの文字列を元の文字列に戻す
-      renewedText = renewedText.replaceAll("__escaped__", escapeKeywords);
-      $("[name='note']").val(renewedText);
+      // inputTextを、一旦下記のように選択範囲を変換したものに置き換える
+      inputText = $("[name='note']").val().substring(0, selectionStart)
+        + modifiedText.replace(randStr, "")
+        + $("[name='note']").val().substring(selectionEnd);
+      $("[name='note']").val(inputText);
 
       // 入力欄内の選択状態を解除
       window.getSelection().removeAllRanges();
@@ -111,15 +96,6 @@ $(function() {
     }
   });
 
-  // 選択肢マーク機能についての注意喚起分の表示／非表示を切り替える
-  $(document).on('click', "#aboutMark", function () {
-    if ($("#markbtn-caution").hasClass('d-none')) {
-      $("#markbtn-caution").removeClass('d-none');
-    } else {
-      $("#markbtn-caution").addClass('d-none');
-    }
-  });
-
   // 入力内容確認エリアを非表示にして、ノート本文入力欄を再度表示する
   $(document).on('click', "#backToInput", function() {
     $("#do-btn-area, .confirm-hider").fadeIn(500);
@@ -127,7 +103,6 @@ $(function() {
     $("#do-btn-area, .confirm-hider").find('label').fadeIn(500);
     $("#confirmation").hide();
   });
-
 });
 
 function showCantConfirm(eq) {
@@ -135,5 +110,16 @@ function showCantConfirm(eq) {
   setTimeout(function() {
     $(".cant-confirm").eq(eq).hide();
   }, 2000);
+}
 
+// 半角英数字から、4文字のランダムな文字列を生成して、$を両端に添えて出力する
+function generatedRandomStr() {
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 4; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+  
+  return `\$${result}\$`;
 }
