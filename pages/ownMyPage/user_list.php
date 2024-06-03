@@ -170,7 +170,7 @@ try {
             data: 'is_stopped',
             title: '利用状態',
             render: function(data, type, full) {
-              let condition = (data == 1) ? '停止中' : '';
+              let condition = (data == 1) ? '停止中' : '利用可';
               return condition;
             }
           },
