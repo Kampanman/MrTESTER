@@ -34,14 +34,14 @@ $(function() {
       let beforeTag = "";
       let afterTag = "";
       if (btn_id == "btnRedUnitMark") {
-        beforeTag = "##red##";
-        afterTag = "#$red$#";
+        beforeTag = "##R##";
+        afterTag = "#$R$#";
       } else if (btn_id == "btnGreenMark") {
-        beforeTag = "##green##";
-        afterTag = "#$green$#";
+        beforeTag = "##G##";
+        afterTag = "#$G$#";
       } else {
-        beforeTag = "##orange##";
-        afterTag = "#$orange$#";
+        beforeTag = "##O##";
+        afterTag = "#$O$#";
       }
 
       // 選択範囲の文字列の前に、ランダム生成された文字列を挿入
@@ -60,7 +60,7 @@ $(function() {
       // 入力欄内の選択状態を解除
       window.getSelection().removeAllRanges();
 
-      byteCount = $('[name="note"]').val().replace(/[^\x00-\xff]/g, '**').length;
+      byteCount = encodeURI($('[name="note"]').val()).replace(/%../g, "*").length;
       $('#byte-count').text(byteCount);
     }
   });
@@ -68,7 +68,7 @@ $(function() {
   // 本文中で選択・マークした箇所をすべて未マーク状態に戻す
   $(document).on('click', "#resetMarks", function () {
     let inputText = $("[name='note']").val();
-    const resetText = inputText.replaceAll(/#(#|\$)(red|green|orange)(#|\$)#/g, "");
+    const resetText = inputText.replaceAll(/#(#|\$)(R|red|G|green|O|orange)(#|\$)#/g, "");
     let do_reset = confirm("マークした箇所をすべて未マーク状態に戻します。\nよろしいですか？")
     if(do_reset) $("[name='note']").val(resetText);
   });
@@ -84,10 +84,10 @@ $(function() {
       $("#confirmation").fadeIn(500);
 
       const convertedText = inputText.replaceAll(/\r?\n/g, "<br />")
-        .replaceAll("##red##", "<span class='red-mark'>")
-        .replaceAll("##green##", "<span class='green-mark'>")
-        .replaceAll("##orange##", "<span class='orange-check mx-1'>")
-        .replaceAll(/#\$(red|green|orange)\$#/g, "</span>");
+        .replaceAll(/##(R|red)##/g, "<span class='red-mark'>")
+        .replaceAll(/##(G|green)##/g, "<span class='green-mark'>")
+        .replaceAll(/##(O|orange)##/g, "<span class='orange-check mx-1'>")
+        .replaceAll(/#\$(R|red|G|green|O|orange)\$#/g, "</span>");
       $("#confirmedText").html(convertedText);
     } else {
       // 入力欄未入力か、総バイト数が65000以上だった場合はエラーメッセージを表示

@@ -117,10 +117,10 @@ try {
         let noteText = $("#note_text").text();
         const convertedText = noteText
           .replaceAll(/\r?\n/g, "<br />")
-          .replaceAll("##red##", "<span class='note-marked red-mark'>")
-          .replaceAll("##green##", "<span class='note-marked green-mark'>")
-          .replaceAll("##orange##", "<span class='note-marked orange-check blind-clicker mx-1'>")
-          .replaceAll(/#\$(red|green|orange)\$#/g, "</span>");
+          .replaceAll(/##(R|red)##/g, "<span class='note-marked red-mark'>")
+          .replaceAll(/##(G|green)##/g, "<span class='note-marked green-mark'>")
+          .replaceAll(/##(O|orange)##/g, "<span class='note-marked orange-check blind-clicker mx-1'>")
+          .replaceAll(/#\$(R|red|G|green|O|orange)\$#/g, "</span>");
         $("#note_text").html(convertedText);
         $(".load-hide").fadeIn(500);
 
