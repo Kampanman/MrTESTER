@@ -27,9 +27,6 @@ https://secure.sakura.ad.jp/rs/cp/
 ## SQL読み込み｜SQL Reading
 お使いのMySQLで、/MrTESTER/sqlに格納されているsqlファイルをインポートしてください。
 
-# 最近の更新｜Recent updates
-- 基本機能搭載完了：2023/11/30
-
 # 環境と使用言語｜Requirement and Language
 - フロントフレームワーク：JQuery 3.3.1
 - サーバー言語：PHP 7.4.30
